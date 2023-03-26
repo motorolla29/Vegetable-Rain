@@ -247,6 +247,74 @@ window.addEventListener('DOMContentLoaded', () => {
         
     };
 
+
+    // СЫР
+
+    var Cheese = function () {
+        Raindrop.call(this);
+    };
+    
+    Cheese.prototype = Object.create(Raindrop.prototype);
+
+    Cheese.prototype.render = function (ctx) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle * Math.PI / 180);
+        ctx.translate(-this.x, -this.y);
+
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.size*2, this.size*5, Math.PI / 2, 0, Math.PI);
+        ctx.strokeStyle = '#d9b250';
+        ctx.fillStyle = '#facd5c';
+        ctx.lineWidth = this.size;
+        ctx.stroke();
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(this.x-this.size*2, this.y-this.size, this.size/2, 0, 2 * Math.PI);
+        ctx.fillStyle = '#d6c687';
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(this.x-this.size*3, this.y-this.size*0.7, this.size/3, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(this.x-this.size*3.5, this.y+this.size, this.size/5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(this.x-this.size*1.5, this.y+this.size*0.7, this.size*0.8, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(this.x-this.size*0.4, this.y-this.size*0.8, this.size/6, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+        
+        ctx.restore();
+    };
+
+    Cheese.prototype.update = function() {
+        Raindrop.prototype.update.call(this);
+        this.angle += 0.15;
+    };
+
+    Cheese.prototype._reset = function() {
+        Raindrop.prototype._reset.call(this);
+        this.size = getRandomValue(35, 50);
+        this.angle = getRandomValue(-600, 60);
+        
+    };
+
     var cleanupFrame = function (ctx) {
         ctx.clearRect(0, 0, screenSize.WIDTH, screenSize.HEIGHT);
     };
@@ -260,8 +328,10 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     
         requestAnimationFrame(renderFrame.bind(null, ctx, raindrops));
+        
     };
-    
+
+
     var setup = function() {
         var DROPS = 100;
         var CUCUMBER_RATIO = 0.15;
@@ -298,10 +368,13 @@ window.addEventListener('DOMContentLoaded', () => {
                     return new Carrot();
                 })
             );
+              
+            renderFrame(ctx, raindrops);
 
-        renderFrame(ctx, raindrops);
+            canvas.addEventListener('click', function(e) {
+                var cheese = new Cheese();
+                raindrops.push(cheese);
+            });
     };
-    
-    
     setup();
 });
