@@ -373,6 +373,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
             canvas.addEventListener('click', function(e) {
                 var cheese = new Cheese();
+                cheese.x = e.clientX;
+                cheese.y = e.clientY;
                 raindrops.push(cheese);
             });
     };
