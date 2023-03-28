@@ -375,6 +375,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 var cheese = new Cheese();
                 cheese.x = e.clientX;
                 cheese.y = e.clientY;
+                cheese._reset = function() {
+                    raindrops.filter(el => el !== cheese);
+                };
                 raindrops.push(cheese);
             });
     };
